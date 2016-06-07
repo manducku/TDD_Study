@@ -82,52 +82,38 @@ expected_html = render_to_string(
 )
 ```
 
-####TDD 접근법
- 1. 기능 테스트(FT)를 먼저 작성
- 1. 기능 테스트(FT)가 실패한다면 단위 테스트(UT)를 통해 코드 동작의 여부를 확인
- 1. 단위 테스트(UT)가 실패한다면 테스트를 통과하도록 코드를 수정(여기서 통화 할때까지 2,3을 반복)
- 1. 기능 테스트(FT)를 실행
+####TDD code 작성 방법론
+- 설정(Setup)
+- 처리(Exercise)
+- 어설션(Assert)
+으로 나누어 한 줄씩 띄어쓰기
 
 ---------------------------------------------------------------------------
-###Django에서의 단위 테스트
-Django에서는 'unittest.TestCase'의 확장 버전인 특수한 'TestCase'를 사용합니다.
-(이는 테스트가 원활이 진행되도록 Django에 최적화된 버전을 말합니다.)
+###Helper Method를 활용하여 반복되는 코드 묶어놓기
 
-TestCase를 사용하기 위해서는
-```
-from django.test import TestCase
-```
-입력을 통해 TestCase를 import 해준 후 상속받아서 사용해야 합니다.
+>Helper Method란?
+>다른 메소드의 동작을 도와주기위해서 만들어진 메소드이다.
+>이것은 일반적으로 하나의 복잡한 Task를 여러개의 작은 Task로
+>나누는 데에 사용된다.(이때 작은 Task가 helper method의 역할을 수행한다)
+>[관련링크](#http://forums.devshed.com/java-help-9/helper-method-350163.html)
 
-----------------------------------------------------------------------------
-####Traceback을 읽고 에러해결 하기
-예제
+test_로 시작하는 메소드만 테스트로 실행되기 때문에 helper method는 test_로 시작하는
+선언을 해서는 안됩니다.
 
-```
-ERROR: test_root_url_resolves_to_home_page_view(lists.tests.HomePageTest)
---------------------------------------------------------------------------
-Traceback (most recent call last):
-    File "/workspace/.../test.py", line 8, in
-test_root_url_resolves_to_home_page_view
-    found = resolve('/')
-  File "/usr/local/lib/.../urlresolver.py",
-line 485, in resolve
-    return get_resolver(urlconf).reslove(path)
-  File "/usr/local/lib/.../urlresolver.py",
-line 353, in resolve
-    raise Reslover404({'tried':tried, 'path':new_path})
-django.core.urlresolvers.Resolver404: {'tried':[[<RegexURLResolver
-<RegexURLPattern list> (admin:admin) ^admin/>]], 'path':''}
---------------------------------------------------------------------------
-[...]
-```
+---------------------------------------------------------------------------
+###Django ORM
+객체 관계형 맵핑(이하 ORM)은 클래스에서 선언된 하나의 인스턴스를 하나의 데이터베이스
+튜플로 정의한 것을 말합니다.
 
-1. 가장먼저 보아야할 ERROR는 어떤 테스트가 실패했는지 알려주는 역할을 합니다.
-(예제에서는 test_root_url_resolves_to_home_page_view 테스트에 에러가 있습니다.)
-1. 해당 테스트의 어떤 부분에서 에러가 발생하는 지를 찾습니다.
-(예제에서는 line 8의 found = resolve('/')부분에 에러가 있습니다.
+---------------------------------------------------------------------------
+###테스트의 모듈화
+*하나의 테스트는 하나의 기능만 테스트 해야한다*
 
------------------------------------------------------------------------------
-###단위 테스트의 코드 주기
-1. 단위 테스트가 어떻게 실패하는지 확인(Traceback)
-1. 실패한 테스트를 수정하기 위한 최소한의 코드를 변경
+- 버그추적의 용이함을 위해
+- 앞의 Assertion이 실패할 경우 뒤의 Assertion의 상태를 파악할 수 없어기 때문에
+
+
+---------------------------------------------------------------------------
+###Python Template Engine - JinJa2
+
+>[관련링크](#http://jinja.pocoo.org/)
