@@ -95,7 +95,7 @@ expected_html = render_to_string(
 >다른 메소드의 동작을 도와주기위해서 만들어진 메소드이다.
 >이것은 일반적으로 하나의 복잡한 Task를 여러개의 작은 Task로
 >나누는 데에 사용된다.(이때 작은 Task가 helper method의 역할을 수행한다)
->[관련링크](#http://forums.devshed.com/java-help-9/helper-method-350163.html)
+[관련링크](#http://forums.devshed.com/java-help-9/helper-method-350163.html)
 
 test_로 시작하는 메소드만 테스트로 실행되기 때문에 helper method는 test_로 시작하는
 선언을 해서는 안됩니다.
@@ -116,4 +116,4 @@ test_로 시작하는 메소드만 테스트로 실행되기 때문에 helper me
 ---------------------------------------------------------------------------
 ###Python Template Engine - JinJa2
 
->[관련링크](#http://jinja.pocoo.org/)
+[관련링크](#http://jinja.pocoo.org/)
