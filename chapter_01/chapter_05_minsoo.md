@@ -56,7 +56,7 @@ render_to_string되어 랜더링된 home.html코드와 달라질 수 밖에 없�
 
 이 문제를 해결하기 위해서 기존에 보냈던 httprequest와 같은 request를 사용할 필요가 있습니다.
 
-**In 'test_home_page_returns_correct_html():'**
+**In** 'test_home_page_returns_correct_html():'
 
 ```python
 request = HttpRequest()
@@ -66,7 +66,7 @@ request = HttpRequest()
 expected_html = render_to_string('home.html', request=request)
 ```
 
-**In test_home_page_can_save_a_POST_request():'**
+**In** 'test_home_page_can_save_a_POST_request():'
 
 ```python
 request = HttpRequest()
