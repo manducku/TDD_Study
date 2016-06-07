@@ -17,6 +17,7 @@ csrf_token을 통하여 POST요청을 위조해서 request를 보내는 공격�
 
 **Issue**
 ***django>1.8이후 csrf_token사용시 unittest가 통과되지 않는 문제***
+
 csrf_token 을 사용하여 POST요청을 보내도록 설계한 후 unittest를 할 경우
 AssertionError가 뜨는 것이 확인됨
 ```script
