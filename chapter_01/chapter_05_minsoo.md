@@ -16,7 +16,8 @@
 csrf_token을 통하여 POST요청을 위조해서 request를 보내는 공격을 막을 수 있습니다.
 
 **Issue**
-***django>1.8이후 csrf_token사용시 unittest가 통과되지 않는 문제***
+
+>***django>1.8이후 csrf_token사용시 unittest가 통과되지 않는 문제***
 
 csrf_token 을 사용하여 POST요청을 보내도록 설계한 후 unittest를 할 경우
 AssertionError가 뜨는 것이 확인됨
@@ -54,6 +55,32 @@ Destroying test database for alias 'default'...
 render_to_string되어 랜더링된 home.html코드와 달라질 수 밖에 없는 것입니다.
 
 이 문제를 해결하기 위해서 기존에 보냈던 httprequest와 같은 request를 사용할 필요가 있습니다.
+
+**In 'test_home_page_returns_correct_html():'**
+
+```python
+request = HttpRequest()
+
+# ... other test code ...
+
+expected_html = render_to_string('home.html', request=request)
+```
+
+**In test_home_page_can_save_a_POST_request():'**
+
+```python
+request = HttpRequest()
+request.method = 'POST'
+request.POST['item_text'] = 'A new list item'
+
+# ... other test code ...
+
+expected_html = render_to_string(
+    'home.html',
+        {'new_item_text': 'A new list item'},
+    request=request,
+)
+```
 
 ####TDD 접근법
  1. 기능 테스트(FT)를 먼저 작성
