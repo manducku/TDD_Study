@@ -151,6 +151,10 @@ def home_page(request):
 
 새롭게 만들어낸 `/lists/new` URL을 home.html, views.html form의 action에 적용
 
+```html
+<form method="POST" action="/lists/new">
+```
+
 ---------------------------------------------------------------------------------
 ###모델 조정
 
