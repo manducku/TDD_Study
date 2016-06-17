@@ -328,4 +328,3 @@ INSTALLED_APPS = [
     'lists',
 ]
 ```
-
