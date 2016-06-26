@@ -22,7 +22,7 @@
 - 실제 운영 사이트와 동일한 황경의 스테이징(staging)사이트를 이용한다.
 - 스테이징 사이트에 대해 기능테스트를 사용할 수 있다.
 - virtualenv를 사용한다.
-- ```자동화```된 스크립트를 사용해서 신규 버전을 배포하고, 이를 스테이징 서버와 운영 서버에 동시 배포함으로써 ```운영 서버 = 스테이징 서버``` 상태로 만들 수 있다.
+- `자동화` 된 스크립트를 사용해서 신규 버전을 배포하고, 이를 스테이징 서버와 운영 서버에 동시 배포함으로써 `운영 서버 = 스테이징 서버` 상태로 만들 수 있다.
 
 ```
 제시된 해결책
@@ -54,7 +54,7 @@
 
 **In `functional_tests/tests.py`**
 
-```
+```python
 import sys
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -86,8 +86,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 **In `functional_tests/tests.py`**
 
-```
-
+```python
 def setUpClass(cls):
     for arg in sys.argv:
         if 'liveserver' in arg
@@ -192,7 +191,7 @@ Ran 2 tests in 4.756s
 
 신규 소스코드의 업데이트가 있더라도 DB는 그대로 유지하기 위해 위치를 변경한다
 
-```
+```python
 DATABASES = {
 	'default' : {
 		'ENGINE' : 'django.db.backends.sqlite3',
