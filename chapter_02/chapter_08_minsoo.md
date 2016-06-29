@@ -357,6 +357,11 @@ chdir /home/elspeth/sites/tddgoat1.amull.net/TDD_Test/source
 exec /home/elspeth/.pyenv/versions/3.5.1/envs/sites/bin/gunicorn --bind \ unix:/tmp/tddgoat1.amull.net.socket superlists.wsgi:application
 ```
 
+이 후 스크립트문으로 완성된 명령어를 실행해본다
+```
+sudo start tddgoat1.amull.net
+```
+
 **Tip**    
 `.conf`파일 에러 로그확인 방법    
 `sudo cd /var/log/upstart/`에서 이름에 맞는 `.conf`파일 찾아서 sudo 권한으로 접근
