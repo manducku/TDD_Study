@@ -336,4 +336,27 @@ ALLOWED_HOSTS = ['tddgoat1.amull.net']
 ####Upstart를 이용한 부팅 시 Gunicorn 가동
 
 >서버를 부팅할 때 자동적으로 Gunicorn이 실행되도록 하고싶다. 이것은 Ubuntu의 Upstart를 이용해서 구현이 가능하다.
+>Ubuntu에는 `sudo start`명령어를 통해서 스크립트 문을 실행할 수 있도록 만들어져 있다.    
+>이는 `/etc/init/`폴더에서 만들 수 있으며 파일의 확장자는 `.conf`로 설정해 주어야한다.
 
+
+**In `/etc/init/tddgoat1.amull.net.conf`**
+
+```
+description "Gunicorn Server for tddgoat1.amull.net"
+
+
+start on net-device-up
+stop on shutdown
+
+respawn
+
+setuid elspeth
+chdir /home/elspeth/sites/tddgoat1.amull.net/TDD_Test/source
+
+exec /home/elspeth/.pyenv/versions/3.5.1/envs/sites/bin/gunicorn --bind \ unix:/tmp/tddgoat1.amull.net.socket superlists.wsgi:application
+```
+
+**Tip**    
+`.conf`파일 에러 로그확인 방법    
+`sudo cd /var/log/upstart/`에서 이름에 맞는 `.conf`파일 찾아서 sudo 권한으로 접근
