@@ -76,7 +76,15 @@ class NewVisitorTest(StaticLiveServerTestCase):
  ```
  
 **[sys.argv에 대한 설명](http://ngee.tistory.com/159)**    
-**[cls에 대한 설명](http://stackoverflow.com/questions/4613000/what-is-the-cls-variable-used-in-python-classes)** 질문, instance method - class method 차이
+>sys라는 모듈을 이용해서 인자값을 받을 수 있다.(sys.argv)    
+>ex) python manage.py test functional_tests --liveserver=tddgoat1.amull.net    
+>'--liveserver=tddgoat1.amull.net'부분을 인자로 받게된다.    
+
+**[cls에 대한 설명](http://stackoverflow.com/questions/4613000/what-is-the-cls-variable-used-in-python-classes)** 질문     
+>instance method - class method 차이
+>이것은 pep8에 의해 구분되는 속성이다.    
+>self는 instance method에서 사용되고,    
+>cls는 class method에서 사용된다.
  
 `LiveServerTestCase`는 몇가지 특정한 제약사항을 갖는다.    
 그 중 하나는 자체 테스트 서버에서 사용된다고 가정하는 것이다.    
