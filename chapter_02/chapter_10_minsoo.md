@@ -542,3 +542,69 @@ class ListViewtest(TestCase):
 
 모델 검증 규칙에 맞춰 리스트 아이템을 추가하는 처리가 필요하다.    
 새로운 단위 테스트를 작성해보자.(home 페이지에 적용한 것과 거의 비슷한 몇가지만 수행하면 된다.)
+
+
+아래의 코드는 아이템 텍스트에 빈 값을 보낼때 리디렉션이 되지 않고    
+`You Can't Have An Empty List Item`이라는 값이 뜨게 만든다는 테스트 코드이다.
+
+
+**In `lists/tests/test_views.py`**
+
+```python
+def test_validation_errors_end_up_on_lists_page(self):
+    list_ = List.objects.create()
+    response = self.client.post(
+    '/lists/%d/' % (list_.id,),
+    data = {'item_text':''}
+    )
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'list.html')
+    expected_error = escape("You Can't Have An Empty List Item")
+
+    self.assertContains(response, expected_error)
+
+```
+
+하지만 뷰에서는 어떤 유효성 검증도 하지 않은채로 모든 POST요청을 `/lists/%d' % (list_.id)`로 리디렉션
+해버리기 때문에 `302!=200`에러가 발생한다.    
+
+때문에 빈 값이 들어오면 그냥 `home.html`을 랜더링 하도록 유도할 필요가 있다.
+
+**In `lists/views.py`**
+
+```python
+def view_list(request, list_id):
+
+    list_ = List.objects.get(id=list_id)
+    error = None
+
+    if request.method == 'POST':
+        try:
+        item = Item(text=request.POST['item_text'], list=list_)
+        item.full_clean()
+        item.save()
+        return redirect('/lists/%d/' % (list_.id,))
+    except ValidationError:
+        error = "You Can't Have An Empty List Item"
+
+    return render(
+        request,
+        'list.html',
+        {'list':list_,
+        'error': error}
+    )
+```
+현재 `views.py`내부에 `try/except` 두 번이나 중복해서 사용했다.
+이건 별로 모양새가 좋지 못하다.
+
+```
+TDD 메모장
+1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
+2. skip method를 삭제했다
+3. views.py에서 하드코딩된 URL을 제거
+4. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
+5. 뷰에 현재 중복 되어있는 try/except 검증 로직을 제거한다.
+
+```
+
+
