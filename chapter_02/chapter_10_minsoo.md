@@ -655,3 +655,55 @@ urlpatterns = [
 
 그 후 테스트가 통과하는 것을 확인하자
 
+###get_absolute_url을 이용한 리디렉션
+
+Django에서는 `get_absolute_url`이라는 특수한 함수를 사용해서 어떤페이지가 아이템을 출력할지 지정할 수 있다.    
+이것은 이번 처리뿐만 아니라 Django관리 페이지에서도 유용하게 쓰일 수 있다.    
+실제로 많은 운영사이트에서는 `get_absolute_url`을 많이 사용한다.
+
+**In `lists/tests/test_models.py`**
+
+```python
+def test_get_absolute_url(self):
+    list_ = List.objects.create()
+    self.assertEqual(list_.get_absolute_url(), '/lists/%d/' % (list_.id,))
+```
+
+>질문 : Django의 reverse 함수를 이용해서 구현해주도록한다. 이것은 Django가 urls.py 처리와 반대 방식으로 처리다(이게 무슨소리지?)
+
+
+**In `lists/models.py`**
+
+```python
+class List(models.Model):
+    
+    def get_absolute_url(self):
+        return reverse('view_list', args=[self.id])
+```
+
+그 후에 `view.py`로 가서 redirect를 리팩터링 해준다.
+
+**In `list/views.py`**
+
+```python
+
+def new_list(requst, list_id):
+    [...]
+    return redirect(list_)
+
+def new_list(requst):
+    [...]
+    return redirect(list_)
+
+```
+
+이 후에 TDD메모장에서 완료된 것들을 지워준다.
+
+
+***TDD메모장***
+
+1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
+2. ~~views.py에서 하드코딩된 URL을 제거~~
+3. ~~list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.~~
+4. 뷰에 현재 중복 되어있는 try/except 검증 로직을 제거한다.
+
