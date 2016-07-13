@@ -12,7 +12,7 @@
 
 **In `functional_tests/tests.py`**
 
-```
+```python
 def test_cannot_add_empty_list_items(self):
 #에디스는 메인 페이지에 접속해서 빈 아이템을 실수로 등록하려고 한다
 # 입력상자가 비어있는 상태에서 엔터키를 누른다
@@ -41,7 +41,7 @@ self.fail('wirte me!')
 
 **In `funtional_tests/test.py`**
 
-```
+```python
 from unittest import skip
 
 [...]
@@ -75,7 +75,7 @@ TDD메모장
 
 **In `functional_test/test.py`**
 
-```
+```python
 class FunctionalTest(StaticliveServerTestCase):
 
 	@classmethod
@@ -130,7 +130,7 @@ TDD 메모장
 **In `functional_test/test_list_item_validation.py`**
 
 
-```
+```python
 from .base import FunctionalTest
 
 
@@ -195,7 +195,7 @@ Django에서는 두 단계로 유효성 검증을 할 수 있다.
 
 **In `lists/tests/test_views.py`**
 
-```
+```python
 [...]
 
 
@@ -212,7 +212,7 @@ class NewListTest(TestCase):
 
 **In `lists/tests/test_models.py`**
 
-```
+```python
 [...]
 
 class ListAndItemModelTest(TestCase):
@@ -226,7 +226,7 @@ class ListAndItemModelTest(TestCase):
 
 **In `lists/tests/test_models.py`**
 
-```
+```python
 from django.core.exceptions import ValidationError
 
 [...]
@@ -263,7 +263,7 @@ Django의 유효성 검증을 수동으로 하기 위해서 `full_clean`이라�
 
 **In `lists/tests/test_models.py`**
 
-```
+```python
 with self.assertRaises(validationError):
 	item.save()
 	item.full_clean()
@@ -284,7 +284,7 @@ HTML을 통해서 에러를 표시하는 방법을 알아보자
 
 **In `lists/tempates/base.html`**
 
-```
+```html
 <!DOCTYPE html>
 <html lang="euc-kr">
 
@@ -331,7 +331,7 @@ HTML을 통해서 에러를 표시하는 방법을 알아보자
 
 **In `lists/tests/test_views.py`**
 
-```
+```python
 class NewListTest(TestCase):
 	
 	[...]
@@ -353,7 +353,7 @@ class NewListTest(TestCase):
 
 **In `lists/views.py`**
 
-```
+```python
 def new_list(request):
     list_ = List.objects.create()
 
@@ -382,7 +382,7 @@ django.core.exceptions.ValidationError: {'text': ['This field cannot be blank.']
 
 **In `lists/views.py`**
 
-```
+```python
 def new_list(request):
     list_ = List.objects.create()
 
@@ -405,7 +405,7 @@ def new_list(request):
 
 **In `lists/views.py`**
 
-```
+```python
 except ValidationError:
 	return render(request, 'home.html')
 ```
@@ -416,19 +416,19 @@ except ValidationError:
 
 **In `lists/views.py`**
 
-```
+```python
 except ValidationError:
 	error = "You can't have an empty list item"
 	return render(request, 'home.html', {"error": error})
 	
 ```  
-하지만 Django에서 `'`가 HTML을 이스케이프 히기 때문에 이상한 코드가 반환되어 일치하지 않는다    
+하지만 Django에서 `어퍼스트로피` 가 HTML을 이스케이프 히기 때문에 이상한 코드가 반환되어 일치하지 않는다    
 
 그걸 해결하기 위해 `escape`메소드를 사용한다
 
 **In `lists/tests/test_views.py`**
 
-```
+```python
 from django.utils.html import escape
 
 [...]
@@ -446,7 +446,7 @@ from django.utils.html import escape
 
 **In `lists/views.py`**
 
-```
+```python
 item = Item.objects.create(test=request.POST['item_text'], list=list_)
 try:
 	item.full_clean()
@@ -458,7 +458,7 @@ except ValidatoinError:
 
 **In `lists/tests/test_views.py`**
 
-```
+```python
    def test_invalid_list_items_arent_saved(self):
         self.client.post('/lists/new', data={'item_text': ''})
         self.assertEqual(List.objects.count(),0)
@@ -472,7 +472,7 @@ except ValidatoinError:
 
 **In `list/views.py`**
 
-```
+```python
  try:
         item.full_clean()
         item.save()
@@ -498,10 +498,12 @@ except ValidatoinError:
 
 **In `lists/templats/list.html`**
 
-```
+```html
 {% block form_action %}/lists/{{ list.id }}/{% endblock %}
 ```
+
 이 작업을 하면서 또 URL을 하드코딩하고있다. 이것도 제거해야한다.
+
 
 ```
 TDD 메모장
@@ -511,5 +513,32 @@ TDD 메모장
 4. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
 ```
 
+이기능은 view_list페이지가 POST요청을 어떻게 처리하는지 모르기 때문에 기능테스트를 망가뜨릴 수 있다.
+
+###리팩터링 : new_item 기능을 view_list로 옮기기
+
+**In `lists/tests/test_views.py`**
+
+```python
+class ListViewtest(TestCase):
+    [...]
+
+    def  test_can_save_a_POST_reqeust_to_an_existing_list(self):
+        other_list = List.objects.create()
+        correct_list = List.objects.create()
+
+        self.client.post(
+            '/lists/%d/' % (correct_list.id,),
+            data = {'item_text':'기존 목록에 신규 아이템'}
+            )
+
+```
 
 
+변경후에 이전 처럼 1개의 Error가 뜨는 것을 확인 하고 `Commit`한다.
+
+
+###view_list에서 모델 유효성 검증 구현
+
+모델 검증 규칙에 맞춰 리스트 아이템을 추가하는 처리가 필요하다.    
+새로운 단위 테스트를 작성해보자.(home 페이지에 적용한 것과 거의 비슷한 몇가지만 수행하면 된다.)
