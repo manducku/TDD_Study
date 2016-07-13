@@ -282,7 +282,7 @@ HTML을 통해서 에러를 표시하는 방법을 알아보자
 
 템플릿이 에러 변수를 제대로 전달했는지 확인함과 동시에 폼 옆에 이것을 출력한다.
 
-**In `lists/tempates/base.html`**
+**In `lists/templates/base.html`**
 
 ```html
 <!DOCTYPE html>
@@ -607,4 +607,51 @@ TDD 메모장
 
 ```
 
+-------------------------------------------------------------------------
+
+##리팩터링 : 하드코딩된 URL 제거해야할
+
+>우리는 개발을 하다보면 어쩔 수 없이 URL의 주소를 바꿔어야할 상황이 생기곤한다.    
+>하지만 그렇게 바꾼다면 우리가 하드코딩해버린 URL을 일일히 찾아가서 손수 수정해줘야하는 악몽같은 일이 발생하게 된다.
+
+이 문제를 해결해주기 위해서 Django는 `name=parameter`라는 최고로 유용한 방법을 고안해냈다.
+
+
+**In `lists/urls.py`**
+
+```python
+from django.conf.urls import url
+from django.contrib import admin
+
+from lists.views import home_page, view_list, new_list
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+
+    url(r'^$', home_page, name='home'),
+
+    url(r'^lists/(\d+)/$', view_list, name='view_list',),
+    url(r'^lists/new$', new_list, name='new_list'),
+]
+```
+
+###{% url %} 템플릿 태그
+
+`home.html`에서 하드코딩된 URL을 Django 템플릿 태그로 변경한다.    
+템플릿 태그는 URL의 "name"을 가리킨다.
+
+
+**In `lists/templates/home.html`**
+
+```HTML
+{% block from_action %}{% url 'new_list' %}{% endblock %}
+```
+
+**In `lists/templates/list.html`**
+
+```HTML
+{% block from_action %}{% url 'view_list' list.id %}{% endblock %}
+```
+
+그 후 테스트가 통과하는 것을 확인하자
 
