@@ -59,12 +59,11 @@ def test_cannot_add_empty_list_items(self):
 
 
 
-```
-TDD메모장
+
+***TDD메모장***
 
 1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
 
-```
 
 
 
@@ -118,11 +117,10 @@ class ItemValidationTest(FunctionalTest):
 테스트가 통과되는 것을 확인한 후에 `functional_test`폴더 내부에 존재하는 `test.py`를 `base.py`로 변경하고 헬퍼클래스를 넣은 후에 각각 `functional_test/item_simple_list_creation.py`, `functional_test/test_layout_and_styling.py`, `functional_test/test_list_item_validation.py`파일을 추가하여 수정한다.    
 그리고 테스트가 통과한 것을 확인했다면 앞서 사용했던 `skip` 메소드를 지우고 커밋한다
 
-```
-TDD 메모장
-1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
-2. skip method를 삭제했다
-```
+
+***TDD 메모장***
+1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
+
 
 
 ###FT에 살 붙이기
@@ -365,12 +363,11 @@ def new_list(request):
 ```
 뷰를 보면 제거해야할 하드코딩 URL후보를 찾을 수 있다. 이것을 메모장에 기록하도록한다.
 
-```
-TDD 메모장
-1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
-2. skip method를 삭제했다
-3. views.py에서 하드코딩된 URL을 제거
-```
+
+***TDD 메모장***
+1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
+2. views.py에서 하드코딩된 URL을 제거
+
 
 테스트를 해보면 유효성 검증이 예외 상황을 발생시키고 이것은 뷰를 통해서 표시된다.
 
@@ -505,13 +502,12 @@ except ValidatoinError:
 이 작업을 하면서 또 URL을 하드코딩하고있다. 이것도 제거해야한다.
 
 
-```
-TDD 메모장
-1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
-2. skip method를 삭제했다
-3. views.py에서 하드코딩된 URL을 제거
-4. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
-```
+
+***TDD 메모장***
+1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
+2. views.py에서 하드코딩된 URL을 제거
+3. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
+
 
 이기능은 view_list페이지가 POST요청을 어떻게 처리하는지 모르기 때문에 기능테스트를 망가뜨릴 수 있다.
 
@@ -597,15 +593,13 @@ def view_list(request, list_id):
 현재 `views.py`내부에 `try/except` 두 번이나 중복해서 사용했다.
 이건 별로 모양새가 좋지 못하다.
 
-```
-TDD 메모장
-1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
-2. skip method를 삭제했다
-3. views.py에서 하드코딩된 URL을 제거
-4. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
-5. 뷰에 현재 중복 되어있는 try/except 검증 로직을 제거한다.
 
-```
+***TDD 메모장***
+1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
+2. views.py에서 하드코딩된 URL을 제거
+3. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
+4. 뷰에 현재 중복 되어있는 try/except 검증 로직을 제거한다.
+
 
 -------------------------------------------------------------------------
 
