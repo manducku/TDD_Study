@@ -60,7 +60,7 @@ def test_cannot_add_empty_list_items(self):
 
 
 
-***TDD메모장***
+***TDD메모장***    
 
 1. test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.
 
@@ -118,7 +118,7 @@ class ItemValidationTest(FunctionalTest):
 그리고 테스트가 통과한 것을 확인했다면 앞서 사용했던 `skip` 메소드를 지우고 커밋한다
 
 
-***TDD 메모장***
+***TDD 메모장***    
 1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
 
 
@@ -364,7 +364,7 @@ def new_list(request):
 뷰를 보면 제거해야할 하드코딩 URL후보를 찾을 수 있다. 이것을 메모장에 기록하도록한다.
 
 
-***TDD 메모장***
+***TDD 메모장***    
 1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
 2. views.py에서 하드코딩된 URL을 제거
 
@@ -503,7 +503,7 @@ except ValidatoinError:
 
 
 
-***TDD 메모장***
+***TDD 메모장***    
 1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
 2. views.py에서 하드코딩된 URL을 제거
 3. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
@@ -594,7 +594,7 @@ def view_list(request, list_id):
 이건 별로 모양새가 좋지 못하다.
 
 
-***TDD 메모장***
+***TDD 메모장***    
 1. ~~test_cannot_add_empty_list_items함수에 skip메소드를 사용했다.~~
 2. views.py에서 하드코딩된 URL을 제거
 3. list.html과 home.html의 폼에서 하드코딩된 URL을 제거한다.
